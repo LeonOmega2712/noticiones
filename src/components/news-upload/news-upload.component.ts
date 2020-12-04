@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Noticia } from '../model/noticia.model'
-import { NewsService } from '../services/news.service';
+import { Noticia } from '../../model/noticia.model';
+import { NewsService } from '../../services/news.service';
 import { NgForm } from '@angular/forms';
 
 @Component({
