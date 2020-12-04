@@ -8,7 +8,7 @@ import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { NewsUploadComponent } from './components/news-upload/news-upload.component'
+import { NewsUploadComponent } from '../news-upload/news-upload.component'
 import { FormsModule } from '@angular/forms';
 
 @NgModule({
