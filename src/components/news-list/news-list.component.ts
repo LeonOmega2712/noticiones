@@ -17,4 +17,8 @@ export class NewsListComponent implements OnInit {
     console.log(this.news);
   }
 
+  borrarNoticia(id:string){
+    this.ns.deleteNews(id);
+  }
+
 }

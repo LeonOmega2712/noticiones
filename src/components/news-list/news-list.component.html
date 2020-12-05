@@ -1,15 +1,27 @@
 <div class="container-fluid">
-  <div class="row" >
-    <div class="col-sm-4" *ngFor="let noticia of news | async" style="margin-top: 1em;">
+  <div class="row">
+    <div
+      class="col-sm-12 col-md-6 col-lg-4 col-xl-3"
+      *ngFor="let noticia of news | async"
+      style="margin-top: 1em"
+    >
       <div class="card spacing">
-        <img src="{{ noticia.img }}" class="card-img-top" />
-        <h5 class="card-header">
+        <img src="https://i.pinimg.com/originals/99/b2/f0/99b2f0ef3888532238e57c615a89019a.jpg" class="card-img-top" />
+        <h3 class="card-header">
           {{ noticia.title }}
-        </h5>
+        </h3>
+        <p class="card-header">
+          {{ noticia.author }}
+        </p>
         <div class="card-body">
-          <p class="card-text">
+          <p class="card-text text-justify">
             {{ noticia.content }}
           </p>
+        </div>
+        <div class="card-header">
+          <p>{{ noticia.date }}</p>
+          <button class="btn btn-link btn-sm">Editar</button>
+          <button class="btn btn-outline-danger btn-sm" style="margin-left: 5px;" (click)="borrarNoticia(noticia.id)">Borrar</button>
         </div>
       </div>
     </div>
