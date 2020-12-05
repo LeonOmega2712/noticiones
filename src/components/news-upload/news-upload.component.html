@@ -30,7 +30,7 @@
           <div class="input-group-prepend">
             <div class="input-group-text">Imagen</div>
           </div>
-          <input type="file" class="form-control" name="img" ngModel />
+          <input type="file" class="form-control" name="img" ngModel #imgInput type="file" accept="image/*" (change)="getImg(imgInput)"/>
         </div>
       </div>
       <div class="form-group col-7">

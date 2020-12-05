@@ -4,6 +4,7 @@ import {
   AngularFirestoreCollection,
   DocumentReference,
 } from '@angular/fire/firestore';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Noticia } from '../model/noticia.model';
@@ -15,7 +16,7 @@ export class NewsService {
   private news: Observable<Noticia[]>;
   private newsCollection: AngularFirestoreCollection<Noticia>;
 
-  constructor(private firestore: AngularFirestore) {
+  constructor(private firestore: AngularFirestore, private afS: AngularFireStorage) {
     this.newsCollection = this.firestore.collection<Noticia>('news');
 
     this.news = this.newsCollection.snapshotChanges().pipe(
@@ -46,23 +47,28 @@ export class NewsService {
       );
   }
 
-  addNews(news: Noticia): Promise<DocumentReference> {
-    return this.newsCollection.add(news);
+  async addNews(news: Noticia, img:any): Promise<any> {
+    return this.newsCollection.add(news).then(async imgUrlRef => {
+      news.id = imgUrlRef.id;
+      news.img = await this.uploadImg(imgUrlRef.id, img);
+      this.updateNews(news, null);
+    });
   }
 
-  updateNews(news: Noticia): Promise<void> {
-    return this.newsCollection
-      .doc(news.id)
-      .update({
-        title: news.title,
-        content: news.content,
-        author: news.author,
-        date: news.date,
-        img: news.img,
-      });
+  async updateNews(news: Noticia, img: any): Promise<void> {
+    if (img != null) {
+      news.img = await this.uploadImg(news.id, img);
+    }
+    this.firestore.collection('news').doc(news.id).update(news);
   }
 
-  deleteNews(id: string): Promise<void> {
-    return this.newsCollection.doc(id).delete();
+  async deleteNews(id: string): Promise<void> {
+    this.newsCollection.doc(id).delete();
+    await this.afS.ref(`news/${id}`).delete();
+  }
+
+  async uploadImg(id: string, imgData: any): Promise<any> {
+    await this.afS.upload(`news/${id}`, imgData);
+    return await this.afS.ref(`news/${id}`).getDownloadURL().toPromise();
   }
 }

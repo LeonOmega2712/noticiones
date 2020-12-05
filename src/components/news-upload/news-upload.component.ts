@@ -10,7 +10,7 @@ import { NgForm } from '@angular/forms';
   exportAs: 'ngForm'
 })
 export class NewsUploadComponent implements OnInit {
-
+  imgFile: File;
   newsForm: Noticia;
   constructor(private ns: NewsService) { }
 
@@ -19,6 +19,10 @@ export class NewsUploadComponent implements OnInit {
 
   subirNoticia(regForm: NgForm) {
     this.newsForm = regForm.form.value;
-    this.ns.addNews(this.newsForm);
+    this.ns.addNews(this.newsForm, this.imgFile);
+  }
+
+  getImg(imgInput: any): void{
+    this.imgFile = imgInput.files[0];
   }
 }
